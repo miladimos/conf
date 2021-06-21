@@ -1,17 +1,17 @@
 <?php
 
-namespace Miladimos\Package\Providers;
+namespace Miladimos\Conf\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Miladimos\Package\Console\Commands\InstallPackageCommand;
-use Miladimos\Package\Facades\PackageFacade;
+use Miladimos\Conf\Console\Commands\InstallConfCommand;
+use Miladimos\Conf\Facades\ConfFacade;
 
-class PackageServiceProvider extends ServiceProvider
+class ConfServiceProvider extends ServiceProvider
 {
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . "/../../config/config.php", 'package');
+        $this->mergeConfFrom(__DIR__ . "/../../config/conf.php", 'conf');
 
         $this->registerFacades();
     }
@@ -27,14 +27,14 @@ class PackageServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->registerCommands();
             $this->registerPublishes();
-            $this->publishConfig();
+            $this->publishConf();
         }
     }
 
     private function registerFacades()
     {
-        $this->app->bind('package', function ($app) {
-            return new PackageFacade();
+        $this->app->bind('conf', function ($app) {
+            return new ConfFacade();
         });
     }
 
@@ -48,11 +48,11 @@ class PackageServiceProvider extends ServiceProvider
     private function registerCommands()
     {
         $this->commands([
-            InstallPackageCommand::class,
+            InstallConfCommand::class,
         ]);
     }
 
-    public function publishConfig()
+    public function publishConf()
     {
         $this->publishes([
             __DIR__ . '/../../config/package.php' => config_path('package.php')

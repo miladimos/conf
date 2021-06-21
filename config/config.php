@@ -1,6 +1,6 @@
 <?php
 
-// config file for vendor/package
+// config file for miladimos/config
 return [
     //
 ];

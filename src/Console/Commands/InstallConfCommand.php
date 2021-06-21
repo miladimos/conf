@@ -1,21 +1,21 @@
 <?php
 
-namespace Miladimos\Package\Console\Commands;
+namespace Miladimos\Conf\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class InstallPackageCommand extends Command
+class InstallConfCommand extends Command
 {
-    protected $signature = 'package:install';
+    protected $signature = 'conf:install';
 
-    protected $description = 'Install the package Package';
+    protected $description = 'Install the package Conf';
 
     public function handle()
     {
-        $this->line("\t... Welcome To Package Installer ...");
+        $this->line("\t... Welcome io conf installer ...");
 
 
-        $this->info("Package Successfully Installed.\n");
+        $this->info("Conf package successfully installed.\n");
         $this->info("\t\tGood Luck.");
     }
 

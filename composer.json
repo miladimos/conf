@@ -35,7 +35,7 @@
                 "PackageServiceProvider"
             ],
             "aliases": {
-                "Package": "Miladimos\\Package\\Facades\\PackageFacade"
+                "Package": "ConfigFacade"
             }
         }
     },

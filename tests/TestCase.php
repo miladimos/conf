@@ -4,7 +4,7 @@
 namespace Miladimos\Package\Tests;
 
 
-use Miladimos\Package\Providers\PackageServiceProvider;
+use Miladimos\Package\Providers\ConfigServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -17,7 +17,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            PackageServiceProvider::class,
+            ConfigServiceProvider::class,
         ];
     }
 

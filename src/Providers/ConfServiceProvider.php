@@ -11,7 +11,7 @@ class ConfServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfFrom(__DIR__ . "/../../config/conf.php", 'conf');
+        $this->mergeConfigFrom(__DIR__ . "/../../config/conf.php", 'conf');
 
         $this->registerFacades();
     }
@@ -27,7 +27,7 @@ class ConfServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->registerCommands();
             $this->registerPublishes();
-            $this->publishConf();
+            $this->publishConfig();
         }
     }
 
@@ -38,13 +38,6 @@ class ConfServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerPublishes()
-    {
-        $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('package.php')
-        ], 'package-config');
-    }
-
     private function registerCommands()
     {
         $this->commands([
@@ -52,10 +45,17 @@ class ConfServiceProvider extends ServiceProvider
         ]);
     }
 
-    public function publishConf()
+    private function registerPublishes()
     {
         $this->publishes([
-            __DIR__ . '/../../config/package.php' => config_path('package.php')
-        ], 'package-config');
+            __DIR__ . '/../../config/conf.php' => config_path('conf.php')
+        ], 'conf-config');
+    }
+
+    public function publishConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/../../config/conf.php' => config_path('conf.php')
+        ], 'conf-config');
     }
 }

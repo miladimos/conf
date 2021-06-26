@@ -26,7 +26,6 @@ class ConfServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->registerCommands();
-            $this->registerPublishes();
             $this->publishConfig();
         }
     }
@@ -45,17 +44,11 @@ class ConfServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function registerPublishes()
+    private function publishConfig()
     {
         $this->publishes([
             __DIR__ . '/../../config/conf.php' => config_path('conf.php')
         ], 'conf-config');
     }
 
-    public function publishConfig()
-    {
-        $this->publishes([
-            __DIR__ . '/../../config/conf.php' => config_path('conf.php')
-        ], 'conf-config');
-    }
 }

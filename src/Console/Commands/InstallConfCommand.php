@@ -3,6 +3,7 @@
 namespace Miladimos\Conf\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class InstallConfCommand extends Command
 {
@@ -15,37 +16,57 @@ class InstallConfCommand extends Command
         $this->line("\t... Welcome io conf installer ...");
 
 
+        // app config file
+        if (File::exists(config_path('conf.php'))) {
+            $confirm = $this->confirm("conf.php already exist. Do you want to overwrite?");
+            if ($confirm) {
+                $this->publishConfig();
+                $this->info("config overwrite finished");
+            } else {
+                $this->info("skipped config publish");
+            }
+        } else {
+            $this->publishConfig();
+            $this->info("config published");
+        }
+
+        // custom configs file
+        $configPath = config('conf.path');
+        if (File::exists($configPath)) {
+            $confirm = $this->confirm("conf.json already exist. Do you want to overwrite?");
+            if ($confirm) {
+                $this->publishCustomConfig();
+                $this->info("custom config overwrite finished");
+            } else {
+                $this->info("skipped custom config publish");
+            }
+        } else {
+            $this->publishCustomConfig();
+            $this->info("custom config published");
+        }
+
         $this->info("Conf package successfully installed.\n");
         $this->info("\t\tGood Luck.");
     }
 
-    //       //config
-    //       if (File::exists(config_path('package.php'))) {
-    //         $confirm = $this->confirm("package.php already exist. Do you want to overwrite?");
-    //         if ($confirm) {
-    //             $this->publishConfig();
-    //             $this->info("config overwrite finished");
-    //         } else {
-    //             $this->info("skipped config publish");
-    //         }
-    //     } else {
-    //         $this->publishConfig();
-    //         $this->info("config published");
-    //     }
+     private function publishConfig()
+     {
+         $this->call('vendor:publish', [
+             '--provider' => "Miladimos\Conf\Providers\ConfServiceProvider",
+             '--tag'      => 'conf-config',
+             '--force'    => true
+         ]);
+     }
 
-    //     //assets
-    //     if (File::exists(public_path('package'))) {
-    //         $confirm = $this->confirm("package directory already exist. Do you want to overwrite?");
-    //         if ($confirm) {
-    //             $this->publishAssets();
-    //             $this->info("assets overwrite finished");
-    //         } else {
-    //             $this->info("skipped assets publish");
-    //         }
-    //     } else {
-    //         $this->publishAssets();
-    //         $this->info("assets published");
-    //     }
+     private function publishCustomConfig()
+     {
+         $configPath = config('conf.path');
+         $content = "{\n\n}";
+
+         File::put($configPath, $content);
+         return true;
+     }
+
 
     //     //migration
     //     if (File::exists(database_path("migrations/$migrationFile"))) {
@@ -60,18 +81,10 @@ class InstallConfCommand extends Command
     //         $this->publishMigration();
     //         $this->info("migration published");
     //     }
-
     //     $this->call('migrate');
     // }
 
-    // private function publishConfig()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
-    //         '--tag'      => 'config',
-    //         '--force'    => true
-    //     ]);
-    // }
+
 
     // private function publishMigration()
     // {

@@ -1,6 +1,6 @@
 {
     "name": "miladimos/conf",
-    "description": "test description",
+    "description": "a dynamic key:value json config file",
     "homepage": "https://github.com/miladimos/conf",
     "type": "library",
     "keywords": [
@@ -9,6 +9,7 @@
         "laravel config",
         "lumen packages",
         "laravel packages",
+        "json config",
         "lumen support"
     ],
     "authors": [

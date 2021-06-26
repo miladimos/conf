@@ -4,7 +4,6 @@
 return [
 
     // Path for config.json file
-    'path' => base_path() . DIRECTORY_SEPARATOR . 'config.json'
-
+    'path' => base_path() . DIRECTORY_SEPARATOR . 'config.json',
 
 ];

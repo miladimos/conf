@@ -20,7 +20,7 @@ composer require miladimos/conf
 Miladimos\Conf\Providers\ConfServiceProvider::class,
 ```
 
-3. Run the command below to publish the package conf file config/conf.php:
+3. Run the command below to install package:
 ```
-php artisan vendor:publish
+php artisan conf:install
 ```

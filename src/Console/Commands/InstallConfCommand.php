@@ -67,40 +67,4 @@ class InstallConfCommand extends Command
          return true;
      }
 
-
-    //     //migration
-    //     if (File::exists(database_path("migrations/$migrationFile"))) {
-    //         $confirm = $this->confirm("migration file already exist. Do you want to overwrite?");
-    //         if ($confirm) {
-    //             $this->publishMigration();
-    //             $this->info("migration overwrite finished");
-    //         } else {
-    //             $this->info("skipped migration publish");
-    //         }
-    //     } else {
-    //         $this->publishMigration();
-    //         $this->info("migration published");
-    //     }
-    //     $this->call('migrate');
-    // }
-
-
-
-    // private function publishMigration()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
-    //         '--tag'      => 'migrations',
-    //         '--force'    => true
-    //     ]);
-    // }
-
-    // private function publishAssets()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Miladimos\package\Providers\packageServiceProvider",
-    //         '--tag'      => 'assets',
-    //         '--force'    => true
-    //     ]);
-    // }
 }

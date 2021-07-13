@@ -18,9 +18,24 @@ class ConfigJsonService
     {
         $configs = self::all();
         foreach ($configs as $conf) {
-            if($conf['id'] == $id) return $conf;
+            if ($conf['id'] == $id) return $conf;
         }
         return false;
+    }
+
+    public static function update($date, $id)
+    {
+        $path = config('conf.path');
+
+        $configs = self::all();
+
+        foreach ($configs as $i => $config) {
+            if ($config['id'] == $id) {
+                $configs[$i] = array_merge($config, $date);
+            }
+        }
+        file_put_contents($path, json_encode($configs));
+        return true;
     }
 
     public static function store($data)
@@ -42,29 +57,14 @@ class ConfigJsonService
         return true;
     }
 
-    public static function update($date, $id)
-    {
-        $path = config('conf.path');
-
-        $configs = self::all();
-
-        foreach($configs as $i => $config) {
-            if($config['id'] == $id) {
-                $configs[$i] = array_merge($config, $date);
-            }
-        }
-        file_put_contents($path, json_encode($configs));
-    }
-
     public static function delete($id)
     {
 
         $path = config('conf.path');
 
-        $data = file_get_contents($path);
-        $data = json_decode($data, true);
+        $configs = self::all();
 
-        unset($data[$id]);
+        unset($configs[$id]);
 
         //encode back to json
         $data = json_encode($data, JSON_PRETTY_PRINT);

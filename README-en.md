@@ -22,3 +22,23 @@ Miladimos\Conf\Providers\ConfServiceProvider::class,
 ```
 php artisan conf:install
 ```
+
+helpers:
+
+conf('key') // return value of config
+
+routes:
+```php
+GET  api/version/conf/all          -> name: conf.all // return all configs
+GET  api/version/conf/show/{id}    -> name: conf.show // return single config
+POST api/version/conf/update/{id}  -> name: conf.update // update
+POST api/version/conf/store        -> name: conf.store // store
+GET  api/version/conf/delete/{id}  -> name: conf.delete // delete
+```
+update and store receive these datas
+```php
+[
+    'key' => 'yourkey',
+    'value' => 'yourvalue'
+]
+```

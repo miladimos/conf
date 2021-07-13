@@ -3,28 +3,25 @@
 
 namespace Miladimos\Conf\Services;
 
-
 use Illuminate\Http\Request;
 
 class ConfigJsonService
 {
-
-//    public function __construct()
-//    {
-//        $path = config('conf.path');
-//    }
-
     public static function all()
     {
         $path = config('conf.path');
 
-        $data = file_get_contents($path);
-
-        $data = json_decode($data);
-
-        return response()->json($data);
+        return json_decode(file_get_contents($path), true);
     }
 
+    public static function show($id)
+    {
+        $configs = self::all();
+        foreach ($configs as $conf) {
+            if($conf['id'] == $id) return $conf;
+        }
+        return false;
+    }
 
     public static function store($data)
     {
@@ -45,25 +42,18 @@ class ConfigJsonService
         return true;
     }
 
-    public static function edit()
+    public static function update($date, $id)
     {
         $path = config('conf.path');
 
-        $data = file_get_contents($path);
-        $data_array = json_decode($data, true);
-        $row = $data_array[$id];
+        $configs = self::all();
 
-
-        $update_arr = array(
-            'id' => $_POST['id'],
-            'first_name' => $_POST['txtFname'],
-            'last_name' => $_POST['txtLname'],
-        );
-
-        $data_array[$edit_id] = $update_arr;
-
-        $data = json_encode($data_array, JSON_PRETTY_PRINT);
-        file_put_contents('users.json', $data);
+        foreach($configs as $i => $config) {
+            if($config['id'] == $id) {
+                $configs[$i] = array_merge($config, $date);
+            }
+        }
+        file_put_contents($path, json_encode($configs));
     }
 
     public static function delete($id)

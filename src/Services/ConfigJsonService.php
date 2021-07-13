@@ -17,10 +17,33 @@ class ConfigJsonService
     public static function show($id)
     {
         $configs = self::all();
+
         foreach ($configs as $conf) {
             if ($conf['id'] == $id) return $conf;
         }
         return false;
+    }
+
+    public static function store($data)
+    {
+        $path = config('conf.path');
+
+        $configs = self::all();
+
+        foreach ($configs as $key) {
+            if($key['key'] == $data['key']) return false;
+        }
+
+        $config['id']    = random_int(1000, 9000);
+        $config['key']   = $data['key'];
+        $config['value'] = $data['value'];
+
+//        array_push($configs, $config);
+        $configs[] = $config;
+
+        file_put_contents($path, json_encode($configs));
+
+        return true;
     }
 
     public static function update($date, $id)
@@ -38,24 +61,6 @@ class ConfigJsonService
         return true;
     }
 
-    public static function store($data)
-    {
-        $path = config('conf.path');
-
-        $data = file_get_contents($path);
-        $data = json_decode($data, true);
-
-        $add_arr = [
-            'ADMIN_TITLE' => "VALUE",
-        ];
-
-        $data[] = $add_arr;
-
-        $data = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($data, $data);
-
-        return true;
-    }
 
     public static function delete($id)
     {
@@ -64,12 +69,15 @@ class ConfigJsonService
 
         $configs = self::all();
 
-        unset($configs[$id]);
+        foreach ($configs as $i => $config) {
+            if ($config['id'] == $id) {
+//                unset($configs[$i]);
+                array_splice($configs, $i, 1);
+            }
+        }
 
-        //encode back to json
-        $data = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($path, $data);
+        file_put_contents($path, json_encode($configs));
 
-        return response()->json($data);
+        return true;
     }
 }

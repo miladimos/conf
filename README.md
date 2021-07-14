@@ -1,16 +1,11 @@
-- [![Starts](https://img.shields.io/github/stars/miladimos/conf?style=flat&logo=github)](https://github.com/miladimos/conf/forks)
-- [![Forks](https://img.shields.io/github/forks/miladimos/conf?style=flat&logo=github)](https://github.com/miladimos/conf/stargazers)
-
-
 - [English](README-en.md)
 
-# پکیج لاراولی 
-  یه پکیج خفن
+Laravel config package
 
 
-### نصب 
+### Install 
 
-1.  برای نصب در مسیر روت پروژه خود دستور زیر را در ریشه پروژه اجرا کنید 
+1.   How to install
 ```
 composer require miladimos/conf
 ```

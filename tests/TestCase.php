@@ -1,13 +1,12 @@
 <?php
 
+namespace Miladimos\Conf\Tests;
 
-namespace Miladimos\Package\Tests;
-
-
-use Miladimos\Package\Providers\ConfigServiceProvider;
+use Miladimos\Conf\Providers\ConfServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+
     public function setUp(): void
     {
         parent::setUp();
@@ -17,7 +16,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            ConfigServiceProvider::class,
+            ConfServiceProvider::class,
         ];
     }
 

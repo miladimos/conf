@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Miladimos\Conf\Http\Controller;
+namespace Miladimos\Conf\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Miladimos\Conf\Http\Controllers\Controller;

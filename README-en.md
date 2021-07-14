@@ -1,10 +1,7 @@
-- [![Starts](https://img.shields.io/github/stars/miladimos/conf?style=flat&logo=github)](https://github.com/miladimos/conf/forks)
-- [![Forks](https://img.shields.io/github/forks/miladimos/conf?style=flat&logo=github)](https://github.com/miladimos/conf/stargazers)
 
-- [فارسی](README.md)
+- (README.md)
 
-# laravel Package
-  A package for fun
+# Laravel config package
 
 ### Installation
 

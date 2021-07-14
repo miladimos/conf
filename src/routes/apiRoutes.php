@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-use Miladimos\Conf\Http\Controller\ConfigJsonController;
+use Miladimos\Conf\Http\Controllers\ConfigJsonController;
 
 Route::get('all', [ConfigJsonController::class, 'all'])->name('conf.all');
 Route::get('show/{id}', [ConfigJsonController::class, 'show'])->name('conf.show');

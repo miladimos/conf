@@ -61,7 +61,7 @@ class InstallConfCommand extends Command
      private function publishCustomConfig()
      {
          $configPath = config('conf.path');
-         $content = "{\n\n}";
+         $content = file_get_contents(__DIR__ . '/../config.stub');
 
          File::put($configPath, $content);
          return true;

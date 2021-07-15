@@ -65,7 +65,8 @@ class ConfServiceProvider extends ServiceProvider
     private function routeConfig()
     {
         return [
-            'prefix' => 'api' . '/' . config('conf.routes.apiVersion') . '/' . config('conf.routes.prefix')
+            'prefix' => 'api' . '/' . config('conf.routes.apiVersion') . '/' . config('conf.routes.prefix'),
+            'middleware' => config('conf.middleware')
         ];
     }
 

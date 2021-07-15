@@ -8,7 +8,8 @@ return [
 
     'routes' => [
         'apiVersion' => 'v1',
-        'prefix' => 'conf'
-    ]
+        'prefix' => 'conf',
+    ],
 
+    'middleware' => ['api'], //Set to empty to disable middleware filter
 ];

@@ -1,0 +1,79 @@
+version: "3.8"
+
+networks:
+  laravel:
+    driver: bridge
+
+services:
+  site:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-box1
+      - mysql
+    volumes:
+      - .:/var/www/html
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laravel
+  php-box1:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php-box1
+    working_dir: /var/www/html
+    volumes:
+    - .:/var/www/html
+    ports:
+    - "9000:9000"
+    networks:
+      - laravel
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: artisan
+    volumes:
+    - .:/var/www/html
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    entrypoint: ["php","/var/www/html/artisan"]
+    networks:
+      - laravel
+  mysql:
+    image: mysql:5.7.31
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "laravel-conf"
+      MYSQL_USER: "laravel-conf"
+      MYSQL_PASSWORD: "laravel-conf"
+      MYSQL_DATABASE: "laravel-conf"
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    networks:
+      - laravel      
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+    - .:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php-box1
+    networks:
+      - laravel
+volumes:
+  db_data:      

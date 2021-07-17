@@ -1,4 +1,3 @@
-- [English](README-en.md)
 
 Laravel config package
 

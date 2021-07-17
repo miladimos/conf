@@ -6,11 +6,22 @@ use Miladimos\Conf\Providers\ConfServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-
+    protected string $base_path;
     public function setUp(): void
     {
         parent::setUp();
         // additional setup
+        $this->base_path =  '/api' . '/' . config('conf.routes.apiVersion') . '/' . config('conf.routes.prefix');
+        file_put_contents('vendor/orchestra/testbench-core/laravel/config.json','
+        [
+            {
+                "id": 1,
+                "key": "key",
+                "value": "value"
+            }
+        ]
+        ');
+
     }
 
     protected function getPackageProviders($app)

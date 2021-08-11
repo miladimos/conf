@@ -1,83 +1,97 @@
 <?php
 
-
 namespace Miladimos\Conf\Services;
-
-use Illuminate\Http\Request;
 
 class ConfigJsonService
 {
-    public static function all()
+    /**
+     * get all configs
+     * @return array
+     */
+    public static function all(): array
     {
         $path = config('conf.path');
-
         return json_decode(file_get_contents($path), true);
     }
 
-    public static function show($id)
+    /**
+     * get a config with id
+     * @param int $id
+     * @return bool|string
+     */
+    public static function show(int $id)
     {
         $configs = self::all();
-
-        foreach ($configs as $conf) {
-            if ($conf['id'] == $id) return $conf;
+        foreach ($configs as $key => $value) {
+            if ($value['id'] == $id) {
+                return $value;
+            }
         }
         return false;
     }
 
-    public static function store($data)
+    /**
+     * store a new config
+     * @param array $data
+     * @return bool
+     */
+    public static function store(array $data):bool
     {
         $path = config('conf.path');
-
         $configs = self::all();
-
-        foreach ($configs as $key) {
-            if($key['key'] == $data['key']) return false;
-        }
-
-        $config['id']    = random_int(1000, 9000);
-        $config['key']   = $data['key'];
-        $config['value'] = $data['value'];
-
-//        array_push($configs, $config);
-        $configs[] = $config;
-
-        file_put_contents($path, json_encode($configs));
-
-        return true;
-    }
-
-    public static function update($date, $id)
-    {
-        $path = config('conf.path');
-
-        $configs = self::all();
-
-        foreach ($configs as $i => $config) {
-            if ($config['id'] == $id) {
-                $configs[$i] = array_merge($config, $date);
+        foreach ($configs as $key => $value) {
+            if($key == $data['key']) {
+                return false;
             }
         }
-        file_put_contents($path, json_encode($configs));
-        return true;
+        try {
+            $config['id'] = random_int(1000, 9000);
+            $config['key']   = $data['key'];
+            $config['value'] = $data['value'];
+            $configs[$data['key']] = $config;
+            file_put_contents($path, json_encode($configs));
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
-
-    public static function delete($id)
+    /**
+     * update a config with id
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public static function update(array $data, int $id) :bool
     {
-
         $path = config('conf.path');
-
         $configs = self::all();
-
         foreach ($configs as $i => $config) {
             if ($config['id'] == $id) {
-//                unset($configs[$i]);
-                array_splice($configs, $i, 1);
+                $configs[$data['key']] = $data;
+                file_put_contents($path, json_encode($configs));
+                return true;
             }
         }
+        return false;
+    }
 
-        file_put_contents($path, json_encode($configs));
-
-        return true;
+    /**
+     * delete a config
+     * @param int $id
+     * @return bool
+     */
+    public static function delete(int $id) :bool
+    {
+        $path = config('conf.path');
+        $configs = self::all();
+        foreach ($configs as $i => $config) {
+            if ($config['id'] == $id) {
+                unset($configs[$i]);
+                file_put_contents($path, json_encode($configs));
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -9,7 +9,6 @@ if(!function_exists('conf'))
         {
             if($config['key'] == $key) return $config['value'];
         }
-
         return false;
     }
 }

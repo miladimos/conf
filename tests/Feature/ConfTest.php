@@ -75,7 +75,6 @@ class ConfTest extends TestCase
             'key' => $key = $this->faker->word,
             'value' => $value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
-        $configs = $this->get($this->base_path.'/all');
         $this->assertSame($value,conf($key));
         $this->postJson($this->base_path.'/store', [
             'key' => $key,
@@ -83,5 +82,20 @@ class ConfTest extends TestCase
         ])->assertStatus(Response::HTTP_OK);
         $this->assertNotSame($new_value,conf($key));
         $this->assertSame($value,conf($key));
+    }
+    /**
+     * test delete config
+     * @return  void
+     */
+    public function test_delete_config()
+    {
+        $this->postJson($this->base_path.'/store', [
+            'key' => $key = $this->faker->word,
+            'value' => $value = $this->faker->word
+        ])->assertStatus(Response::HTTP_OK);
+        $configs = $this->get($this->base_path.'/all');
+        $this->assertSame($value,conf($key));
+        $this->getJson($this->base_path.'/delete/'.$configs[$key]['id'])->assertStatus(Response::HTTP_OK);
+        $this->assertFalse(conf($key));
     }
 }

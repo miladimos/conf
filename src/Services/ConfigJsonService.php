@@ -88,7 +88,8 @@ class ConfigJsonService
         foreach ($configs as $i => $config) {
             if ($config['id'] == $id) {
                 unset($configs[$i]);
-                file_put_contents($path, json_encode($configs));
+                $a = empty($configs) ? "{}" : json_encode($configs);
+                file_put_contents($path, $a);
                 return true;
             }
         }

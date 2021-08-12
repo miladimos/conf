@@ -97,5 +97,18 @@ class ConfTest extends TestCase
         $this->assertSame($value,conf($key));
         $this->getJson($this->base_path.'/delete/'.$configs[$key]['id'])->assertStatus(Response::HTTP_OK);
         $this->assertFalse(conf($key));
+        $response = $this->get($this->base_path.'/all');
+        $this->assertMatchesRegularExpression('/^\{\"key":{"id":1,"key":"key","value":"value"\}\}$/',$response->content());
+    }
+    /**
+     * test empty
+     * @return  void
+     */
+    public function test_empty()
+    {
+        $this->getJson($this->base_path.'/delete/1')->assertStatus(Response::HTTP_OK);
+        $this->assertFalse(conf('key'));
+        $path = config('conf.path');
+        $this->assertMatchesRegularExpression('/^\{\}$/',file_get_contents($path));
     }
 }

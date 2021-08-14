@@ -60,10 +60,16 @@ class ConfTest extends TestCase
         ])->assertStatus(Response::HTTP_OK);
         $configs = $this->get($this->base_path.'/all');
         $this->postJson($this->base_path.'/update/'.$configs[$key]['id'], [
-            'key' => $key,
+            'key' => $new_key = $this->faker->word,
             'value' => $new_value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
-        $this->assertSame($new_value,conf($key));
+        $this->assertFalse(conf($key));
+        $this->assertSame($new_value,conf($new_key));
+        $response = $this->get($this->base_path.'/all');
+        $pattern = <<<EOL
+        /^\{\"key":{"id":1,"key":"key","value":"value"\}\,"$new_key":\{"id":\d+,"key":"$new_key","value":"$new_value"\}\}$/
+EOL;
+        $this->assertMatchesRegularExpression($pattern,$response->content());
     }
     /**
      * test insert duplicate key config

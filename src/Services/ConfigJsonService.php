@@ -68,7 +68,8 @@ class ConfigJsonService
         $configs = self::all();
         foreach ($configs as $i => $config) {
             if ($config['id'] == $id) {
-                $configs[$data['key']] = $data;
+                unset($configs[$i]);
+                $configs[$data['key']] = array_merge($config, $data);
                 file_put_contents($path, json_encode($configs));
                 return true;
             }
@@ -88,11 +89,11 @@ class ConfigJsonService
         foreach ($configs as $i => $config) {
             if ($config['id'] == $id) {
                 unset($configs[$i]);
-                $a = empty($configs) ? "{}" : json_encode($configs);
-                file_put_contents($path, $a);
+                file_put_contents($path, empty($configs) ? "{}" : json_encode($configs));
                 return true;
             }
         }
         return false;
     }
 }
+

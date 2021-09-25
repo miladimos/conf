@@ -47,6 +47,7 @@ class ConfigJsonService
         try {
             $config['id'] = random_int(1000, 9000);
             $config['key']   = $data['key'];
+            $config['description']   = $data['description'];
             $config['value'] = $data['value'];
             $configs[$data['key']] = $config;
             file_put_contents($path, json_encode($configs));

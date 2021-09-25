@@ -29,10 +29,11 @@ class ConfTest extends TestCase
     {
         $this->postJson($this->base_path.'/store', [
             'key' => 'ping',
+            'description' => 'test',
             'value' => 'pong'
         ])->assertStatus(Response::HTTP_OK);
         $response = $this->get($this->base_path.'/all')->assertStatus(Response::HTTP_OK);
-        $this->assertMatchesRegularExpression('/^\{\"key":{"id":1,"key":"key","value":"value"\}\,"ping":\{"id":\d+,"key":"ping","value":"pong"\}\}$/',$response->content());
+        $this->assertMatchesRegularExpression('/^\{\"key":{"id":1,"key":"key","description":"description","value":"value"\}\,"ping":\{"id":\d+,"key":"ping","description":"test","value":"pong"\}\}$/',$response->content());
     }
     /**
      * test conf helper
@@ -43,6 +44,7 @@ class ConfTest extends TestCase
     {
         $this->postJson($this->base_path.'/store', [
             'key' => $key = $this->faker->word,
+            'description' => $description = $this->faker->word,
             'value' => $value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $this->assertSame($value,conf($key));
@@ -56,18 +58,20 @@ class ConfTest extends TestCase
     {
         $this->postJson($this->base_path.'/store', [
             'key' => $key = $this->faker->word,
+            'description' => $description = $this->faker->word,
             'value' => $value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $configs = $this->get($this->base_path.'/all');
         $this->postJson($this->base_path.'/update/'.$configs[$key]['id'], [
             'key' => $new_key = $this->faker->word,
+            'description' => $new_description = $this->faker->word,
             'value' => $new_value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $this->assertFalse(conf($key));
         $this->assertSame($new_value,conf($new_key));
         $response = $this->get($this->base_path.'/all');
         $pattern = <<<EOL
-        /^\{\"key":{"id":1,"key":"key","value":"value"\}\,"$new_key":\{"id":\d+,"key":"$new_key","value":"$new_value"\}\}$/
+        /^\{\"key":{"id":1,"key":"key","description":"description","value":"value"\}\,"$new_key":\{"id":\d+,"key":"$new_key","description":"$new_description","value":"$new_value"\}\}$/
 EOL;
         $this->assertMatchesRegularExpression($pattern,$response->content());
     }
@@ -79,11 +83,13 @@ EOL;
     {
         $this->postJson($this->base_path.'/store', [
             'key' => $key = $this->faker->word,
+            'description' => $description = $this->faker->word,
             'value' => $value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $this->assertSame($value,conf($key));
         $this->postJson($this->base_path.'/store', [
             'key' => $key,
+            'description' => $new_description = $this->faker->word,
             'value' => $new_value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $this->assertNotSame($new_value,conf($key));
@@ -97,6 +103,7 @@ EOL;
     {
         $this->postJson($this->base_path.'/store', [
             'key' => $key = $this->faker->word,
+            'description' => $description = $this->faker->word,
             'value' => $value = $this->faker->word
         ])->assertStatus(Response::HTTP_OK);
         $configs = $this->get($this->base_path.'/all');
@@ -104,7 +111,7 @@ EOL;
         $this->getJson($this->base_path.'/delete/'.$configs[$key]['id'])->assertStatus(Response::HTTP_OK);
         $this->assertFalse(conf($key));
         $response = $this->get($this->base_path.'/all');
-        $this->assertMatchesRegularExpression('/^\{\"key":{"id":1,"key":"key","value":"value"\}\}$/',$response->content());
+        $this->assertMatchesRegularExpression('/^\{\"key":{"id":1,"key":"key","description":"description","value":"value"\}\}$/',$response->content());
     }
     /**
      * test empty

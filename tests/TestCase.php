@@ -17,6 +17,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             "key": {
                 "id": 1,
                 "key": "key",
+                "description": "description",
                 "value": "value"
             }
         }

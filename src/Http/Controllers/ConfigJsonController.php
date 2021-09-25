@@ -33,7 +33,7 @@ class ConfigJsonController extends Controller
      */
     public function store(Request $request)
     {
-        return ConfigJsonService::store($request->only('key', 'value'));
+        return ConfigJsonService::store($request->only('key', 'description', 'value'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ConfigJsonController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        return ConfigJsonService::update($request->only('key', 'value'), $id);
+        return ConfigJsonService::update($request->only('key', 'description', 'value'), $id);
     }
 
     /**

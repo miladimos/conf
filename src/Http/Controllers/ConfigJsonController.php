@@ -3,6 +3,7 @@
 namespace Miladimos\Conf\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Miladimos\Conf\Http\Requests\ConfigRequest;
 use Miladimos\Conf\Services\ConfigJsonService;
 
 class ConfigJsonController extends Controller
@@ -28,10 +29,10 @@ class ConfigJsonController extends Controller
 
     /**
      * store a new config with key
-     * @param Request $request
+     * @param ConfigRequest $request
      * @return bool
      */
-    public function store(Request $request)
+    public function store(ConfigRequest $request)
     {
         return ConfigJsonService::store($request->only('key', 'description', 'value'));
     }

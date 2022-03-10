@@ -33,9 +33,7 @@ use Miladimos\Conf\Services\ConfigJsonService;
 ConfigJsonService::all(); // return all stored configs in config.json file
 ConfigJsonService::show($id); // receive id of config and return one config
 ConfigJsonService::store($date); 
-// receive ['key' => 'your_key', 'value' => 'your_value'] 
 ConfigJsonService::update($date, $id); 
-// receive id of config and ['key' => 'your_key', 'value' => 'your_value'] for update
 ConfigJsonService::delete($id); // receive id of config and  delete
 ```
 
@@ -51,7 +49,8 @@ update and store receive these datas
 ```php
 [
     'key' => 'yourkey',
-    'value' => 'yourvalue'
+    'value' => 'yourvalue',
+    'description' => 'description',
 ]
 ```
 

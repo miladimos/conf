@@ -17,11 +17,7 @@ class ConfServiceProvider extends ServiceProvider
         $this->registerFacades();
     }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
+
     public function boot()
     {
 
@@ -31,7 +27,6 @@ class ConfServiceProvider extends ServiceProvider
         }
 
         $this->registerRoutes();
-
     }
 
     private function registerFacades()
@@ -69,5 +64,4 @@ class ConfServiceProvider extends ServiceProvider
             'middleware' => config('conf.middleware')
         ];
     }
-
 }
